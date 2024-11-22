@@ -1,0 +1,27 @@
+function threshold = otsuThreshold(image)
+    % Convert the image to grayscale if it's not already
+    if size(image, 3) == 3
+        image = rgb2gray(image);
+    end
+
+    % Normalize the image to the range [0, 1]
+    image = rescale(image,0,1);
+
+    % Compute the histogram
+    [counts, ~] = histcounts(image(:), 256);
+
+    % Normalize the histogram
+    p = counts / sum(counts);
+
+    % Initialize variables
+    omega = cumsum(p); % Cumulative sum of probabilities
+    mu = cumsum((0:255).*p); % Cumulative mean
+    muT = mu(end); % Total mean
+
+    % Compute the between-class variance
+    sigmaB = (muT * omega - mu).^2 ./ (omega .* (1 - omega));
+
+    % Find the maximum variance and corresponding threshold
+    [~, threshold] = max(sigmaB);
+
+end

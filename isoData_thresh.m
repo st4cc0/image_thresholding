@@ -10,7 +10,8 @@ while res>epst
     meanH = mean(image_lin(image_lin>t));
     isoData_thresh = (meanL+ meanH)./2;
 
-    epst = abs(isoData_thresh - t);
+    res = abs(isoData_thresh - t);
     t = isoData_thresh;
 end
+
 end
